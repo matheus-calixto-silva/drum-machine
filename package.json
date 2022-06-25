@@ -7,7 +7,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "prepare": "husky install",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "server": "json-server -p3001 --watch db.json"
   },
   "dependencies": {
     "axios": "^0.27.2",
