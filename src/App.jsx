@@ -1,45 +1,28 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import React, { useEffect, useState } from 'react';
+import DrumPad from './components/DrumPad/DrumPad';
+import './App.css';
+
+import api from './services/api';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [sounds, setSounds] = useState([]);
+
+  useEffect(() => {
+    api.get('/sounds').then(({ data }) => {
+      setSounds(data);
+    });
+  }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+    <div id='drum-machine'>
+      <div id='pads'>
+        {sounds.map(({ id, keyTrigger, url }) => (
+          <DrumPad key={id} id={id} keyTrigger={keyTrigger} url={url} />
+        ))}
+      </div>
+      <div id='display'></div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
